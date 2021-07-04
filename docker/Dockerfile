@@ -1,5 +1,4 @@
-FROM golang:1.16.5-alpine3.13 as builder
-RUN apk add --no-cache git openssh gcc musl-dev
+FROM golang:1.16.5-buster as builder
 WORKDIR /lokiproxy
 COPY go.mod .
 COPY go.sum .
@@ -12,10 +11,13 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=$GOARCH go build -o /lokiproxy
 FROM grafana/promtail:2.2.1 AS promtail
 
 ## Build final image
-FROM alpine:3.14.0
+FROM debian:buster-slim
 LABEL maintainer="andy.lo-a-foe@philips.com"
-RUN apk add --no-cache supervisor jq curl && rm -rf /tmp/* /var/cache/apk/*
-RUN apk add --no-cache yq --repository http://dl-cdn.alpinelinux.org/alpine/edge/community
+RUN apt-get update && apt-get install -y \
+    jq \
+    supervisor \
+    curl \
+ && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /sidecars/bin /sidecars/supervisor/conf.d sidecars/etc /promtail
 
