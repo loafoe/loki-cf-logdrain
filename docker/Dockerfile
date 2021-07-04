@@ -5,7 +5,7 @@ COPY go.mod .
 COPY go.sum .
 
 # Get dependancies - will also be cached if we won't change mod/sum
-RUN go mod download -x
+RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=$GOARCH go build -o /lokiproxy
 
@@ -17,7 +17,7 @@ LABEL maintainer="andy.lo-a-foe@philips.com"
 RUN apk add --no-cache supervisor jq curl && rm -rf /tmp/* /var/cache/apk/*
 RUN apk add --no-cache yq --repository http://dl-cdn.alpinelinux.org/alpine/edge/community
 
-RUN mkdir -p /sidecars/bin /sidecars/supervisor/conf.d sidecars/etc /prometheus /thanos
+RUN mkdir -p /sidecars/bin /sidecars/supervisor/conf.d sidecars/etc /promtail
 
 COPY --from=builder     /lokiproxy        /sidecars/bin
 COPY --from=promtail    /usr/bin/promtail /sidecars/bin/promtail
