@@ -33,9 +33,9 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./
-          file: ./Dockerfile
+          file: ./docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: philipslabs/variant,docker.na1.hsdp.io/philipslabs/variant
-          cache-from: type=registry,ref=philipslabs/variant:latest
+          tags: loafoe/lokiproxy,docker.na1.hsdp.io/loafoe/lokiproxy
+          cache-from: type=registry,ref=loafoe/lokiproxy:latest
           cache-to: type=inline
