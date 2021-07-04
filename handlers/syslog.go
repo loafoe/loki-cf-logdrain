@@ -3,9 +3,10 @@ package handlers
 import (
 	"fmt"
 	"io/ioutil"
-	"log/syslog"
 	"net/http"
 	"os"
+
+	syslog "github.com/RackSec/srslog"
 
 	v2syslog "github.com/influxdata/go-syslog/v2"
 	"github.com/influxdata/go-syslog/v2/rfc5424"
@@ -39,6 +40,8 @@ func NewSyslogHandler(token, promtailAddr string) (*SyslogHandler, error) {
 	if err != nil {
 		return nil, err
 	}
+	writer.SetFramer(syslog.RFC5425MessageLengthFramer)
+	writer.SetFormatter(syslog.RFC5424Formatter)
 	handler.writer = writer
 	handler.parser = parser
 	return handler, nil
@@ -54,21 +57,22 @@ func (h *SyslogHandler) Handler(tracer *zipkin.Tracer) echo.HandlerFunc {
 			return c.String(http.StatusUnauthorized, "")
 		}
 		b, _ := ioutil.ReadAll(c.Request().Body)
-		go func() {
-			if tracer != nil {
-				span := zipkintracing.StartChildSpan(c, "push", tracer)
-				defer span.Finish()
-				traceID := span.Context().TraceID.String()
-				fmt.Printf("handler=syslog traceID=%s\n", traceID)
-			}
-			syslogMessage, err := h.parser.Parse(b)
-			if err != nil {
-				fmt.Printf("error parsing message: %v\n", err)
-				return
-			}
-			fmt.Printf("version=%d\n", syslogMessage.Version())
-			_, _ = h.writer.Write(b)
-		}()
+		if tracer != nil {
+			span := zipkintracing.StartChildSpan(c, "push", tracer)
+			defer span.Finish()
+			traceID := span.Context().TraceID.String()
+			fmt.Printf("handler=syslog traceID=%s\n", traceID)
+		}
+		syslogMessage, err := h.parser.Parse(b)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("version=%d\n", syslogMessage.Version())
+		priority := syslogMessage.Priority()
+		msg := syslogMessage.Message()
+		hostName := syslogMessage.Hostname()
+		h.writer.SetHostname(*hostName)
+		h.writer.WriteWithPriority(syslog.Priority(*priority), []byte(*msg))
 		return c.String(http.StatusOK, "")
 	}
 }
