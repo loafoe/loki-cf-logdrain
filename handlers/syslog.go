@@ -41,10 +41,14 @@ func NewSyslogHandler(token, promtailAddr string) (*SyslogHandler, error) {
 		return nil, err
 	}
 	writer.SetFramer(syslog.RFC5425MessageLengthFramer)
-	writer.SetFormatter(syslog.RFC5424Formatter)
+	writer.SetFormatter(RFC5424PassThroughFormatter)
 	handler.writer = writer
 	handler.parser = parser
 	return handler, nil
+}
+
+func RFC5424PassThroughFormatter(p syslog.Priority, hostname, tag, content string) string {
+	return content
 }
 
 func (h *SyslogHandler) Handler(tracer *zipkin.Tracer) echo.HandlerFunc {
@@ -68,11 +72,7 @@ func (h *SyslogHandler) Handler(tracer *zipkin.Tracer) echo.HandlerFunc {
 			return err
 		}
 		fmt.Printf("version=%d\n", syslogMessage.Version())
-		priority := syslogMessage.Priority()
-		msg := syslogMessage.Message()
-		hostName := syslogMessage.Hostname()
-		h.writer.SetHostname(*hostName)
-		h.writer.WriteWithPriority(syslog.Priority(*priority), []byte(*msg))
+		_, _ = h.writer.Write(b)
 		return c.String(http.StatusOK, "")
 	}
 }
