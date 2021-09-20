@@ -10,6 +10,6 @@ require (
 	github.com/openzipkin/zipkin-go v0.2.5
 	github.com/philips-software/go-hsdp-api v0.43.0
 	github.com/philips-software/logproxy v1.4.4
-	github.com/spf13/viper v1.8.1
+	github.com/spf13/viper v1.9.0
 	github.com/stretchr/testify v1.7.0
 )
