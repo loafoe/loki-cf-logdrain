@@ -36,6 +36,6 @@ jobs:
           file: ./docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: loafoe/lokiproxy,docker.na1.hsdp.io/loafoe/lokiproxy
-          cache-from: type=registry,ref=loafoe/lokiproxy:latest
+          tags: loafoe/loki-cf-logdrain,docker.na1.hsdp.io/loafoe/loki-cf-logdrain
+          cache-from: type=registry,ref=loafoe/loki-cf-logdrain:latest
           cache-to: type=inline

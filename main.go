@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"lokiproxy/handlers"
+	"loki-cf-logdrain/handlers"
 	"os"
 	"os/signal"
 
@@ -31,7 +31,7 @@ func main() {
 
 func realMain(echoChan chan<- *echo.Echo) int {
 
-	viper.SetEnvPrefix("lokiproxy")
+	viper.SetEnvPrefix("loki-cf-logdrain")
 	viper.SetDefault("transport_url", "")
 	viper.SetDefault("promtail_endpoint", "localhost:1514")
 	viper.AutomaticEnv()
@@ -52,7 +52,7 @@ func realMain(echoChan chan<- *echo.Echo) int {
 		reporter = zipkinHttpReporter.NewReporter(transportURL)
 	}
 	traceTags := make(map[string]string)
-	traceTags["app"] = "lokiproxy"
+	traceTags["app"] = "loki-cf-logdrain"
 	tracer, err := zipkin.NewTracer(reporter,
 		zipkin.WithLocalEndpoint(endpoint),
 		zipkin.WithTags(traceTags),

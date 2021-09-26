@@ -36,9 +36,9 @@ func NewSyslogHandler(token, promtailAddr string) (*SyslogHandler, error) {
 		handler.debug = true
 	}
 	writer, err := syslog.Dial("tcp", promtailAddr,
-		syslog.LOG_WARNING|syslog.LOG_DAEMON, "lokiproxy")
+		syslog.LOG_WARNING|syslog.LOG_DAEMON, "loki-cf-logdrain")
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("promtail: %w", err)
 	}
 	writer.SetFramer(syslog.RFC5425MessageLengthFramer)
 	writer.SetFormatter(RFC5424PassThroughFormatter)

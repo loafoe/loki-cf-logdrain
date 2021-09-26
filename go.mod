@@ -1,4 +1,4 @@
-module lokiproxy
+module loki-cf-logdrain
 
 go 1.16
 

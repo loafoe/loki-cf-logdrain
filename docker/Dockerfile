@@ -1,12 +1,12 @@
 FROM golang:1.16.5-buster as builder
-WORKDIR /lokiproxy
+WORKDIR /loki-cf-logdrain
 COPY go.mod .
 COPY go.sum .
 
 # Get dependancies - will also be cached if we won't change mod/sum
 RUN go mod download
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=$GOARCH go build -o /lokiproxy
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=$GOARCH go build -o /loki-cf-logdrain
 
 FROM grafana/promtail:2.2.1 AS promtail
 
@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN mkdir -p /sidecars/bin /sidecars/supervisor/conf.d sidecars/etc /promtail
 
-COPY --from=builder     /lokiproxy        /sidecars/bin
+COPY --from=builder     /loki-cf-logdrain        /sidecars/bin
 COPY --from=promtail    /usr/bin/promtail /sidecars/bin/promtail
 
 COPY docker/supervisord_configs/ /sidecars/supervisor/conf.d
