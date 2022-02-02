@@ -734,8 +734,8 @@ github.com/performancecopilot/speed v3.0.0+incompatible/go.mod h1:/CLtqpZ5gBg1M9
 github.com/peterbourgon/diskv v2.0.1+incompatible/go.mod h1:uqqh8zWWbv1HBMNONnaR/tNboyR3/BZd58JJSHlUSCU=
 github.com/philhofer/fwd v1.0.0/go.mod h1:gk3iGcWd9+svBvR0sR+KPcfE+RNWozjowpeBVG3ZVNU=
 github.com/philips-software/go-hsdp-api v0.51.8/go.mod h1:tOCowpkacNJOkyZVjJsxiQ/nQLZLNvEOZlVvvKEY3yk=
-github.com/philips-software/go-hsdp-api v0.60.0 h1:EpP3wVElge6TeqmRZ0JUhJKDLAMAw7yDoFTf//p1E+A=
-github.com/philips-software/go-hsdp-api v0.60.0/go.mod h1:RgvTtgmmce+hzJh3dP2RfIrr9ySThHcTu0MC10F3VMg=
+github.com/philips-software/go-hsdp-api v0.60.1 h1:Hp3qVD2tCU91fAhLYh1S06KypD4K2K4U/3PuOhFA9J4=
+github.com/philips-software/go-hsdp-api v0.60.1/go.mod h1:RgvTtgmmce+hzJh3dP2RfIrr9ySThHcTu0MC10F3VMg=
 github.com/philips-software/go-hsdp-signer v1.4.0 h1:yg7UILhmI4xJhr/tQiAiQwJL0EZFvLuMqpH2GZ9ygY4=
 github.com/philips-software/go-hsdp-signer v1.4.0/go.mod h1:/QehZ/+Aks2t1TFpjhF/7ZSB8PJIIJHzLc03rOqwLw0=
 github.com/philips-software/logproxy v1.7.1 h1:SNo+6auexBq5JlUGf2yPqu+yDZ9wgXv4ZAGBzylcXMw=
