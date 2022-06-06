@@ -11,5 +11,5 @@ require (
 	github.com/philips-software/go-hsdp-api v0.65.1
 	github.com/philips-software/logproxy v1.7.2
 	github.com/spf13/viper v1.12.0
-	github.com/stretchr/testify v1.7.1
+	github.com/stretchr/testify v1.7.2
 )
