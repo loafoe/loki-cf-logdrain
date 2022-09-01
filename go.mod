@@ -8,7 +8,7 @@ require (
 	github.com/labstack/echo-contrib v0.13.0
 	github.com/labstack/echo/v4 v4.7.2
 	github.com/openzipkin/zipkin-go v0.4.0
-	github.com/philips-software/go-hsdp-api v0.72.3
+	github.com/philips-software/go-hsdp-api v0.73.0
 	github.com/philips-software/logproxy v1.7.2
 	github.com/spf13/viper v1.12.0
 	github.com/stretchr/testify v1.8.0
