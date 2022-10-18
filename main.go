@@ -43,7 +43,7 @@ func realMain(echoChan chan<- *echo.Echo) int {
 	e := echo.New()
 
 	// Tracing
-	endpoint, err := zipkin.NewEndpoint("echo-service", "")
+	endpoint, err := zipkin.NewEndpoint("loki-cf-logdrain", "")
 	if err != nil {
 		e.Logger.Fatalf("error creating zipkin endpoint: %s", err.Error())
 	}
