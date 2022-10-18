@@ -4,7 +4,8 @@ Logdrainer to forward Cloud foundry logs to [Loki](https://grafana.com/oss/loki/
 
 ## Usage
 
-TODO
+Deployment can be be done using [this Terraform module](https://github.com/loafoe/terraform-cloudfoundry-loki/tree/main/modules/logdrain) which is 
+part of th CF Loki module
 
 ## License
 
