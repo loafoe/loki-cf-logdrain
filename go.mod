@@ -8,7 +8,7 @@ require (
 	github.com/labstack/echo-contrib v0.13.0
 	github.com/labstack/echo/v4 v4.9.1
 	github.com/openzipkin/zipkin-go v0.4.1
-	github.com/philips-software/go-hsdp-api v0.75.6
+	github.com/philips-software/go-hsdp-api v0.76.0
 	github.com/philips-software/logproxy v1.7.5
 	github.com/spf13/viper v1.14.0
 	github.com/stretchr/testify v1.8.1
@@ -16,7 +16,7 @@ require (
 
 require (
 	github.com/azer/snakecase v1.0.0 // indirect
-	github.com/cenkalti/backoff/v4 v4.1.3 // indirect
+	github.com/cenkalti/backoff/v4 v4.2.0 // indirect
 	github.com/cloudfoundry-community/gautocloud v1.1.5 // indirect
 	github.com/cloudfoundry-community/go-cfenv v1.18.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
