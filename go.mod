@@ -9,7 +9,7 @@ require (
 	github.com/labstack/echo/v4 v4.9.1
 	github.com/openzipkin/zipkin-go v0.4.1
 	github.com/philips-software/go-hsdp-api v0.76.0
-	github.com/philips-software/logproxy v1.7.5
+	github.com/philips-software/logproxy v1.7.8
 	github.com/spf13/viper v1.14.0
 	github.com/stretchr/testify v1.8.1
 )
@@ -67,7 +67,7 @@ require (
 	golang.org/x/text v0.4.0 // indirect
 	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
 	google.golang.org/genproto v0.0.0-20221024183307-1bc688fe9f3e // indirect
-	google.golang.org/grpc v1.50.1 // indirect
+	google.golang.org/grpc v1.51.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
