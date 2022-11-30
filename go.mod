@@ -9,7 +9,7 @@ require (
 	github.com/labstack/echo/v4 v4.9.1
 	github.com/openzipkin/zipkin-go v0.4.1
 	github.com/philips-software/go-hsdp-api v0.76.0
-	github.com/philips-software/logproxy v1.7.8
+	github.com/philips-software/logproxy v1.7.10
 	github.com/spf13/viper v1.14.0
 	github.com/stretchr/testify v1.8.1
 )
