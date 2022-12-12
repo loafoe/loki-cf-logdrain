@@ -8,7 +8,7 @@ RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=$GOARCH go build -o /loki-cf-logdrain
 
-FROM grafana/promtail:2.7.0 AS promtail
+FROM grafana/promtail:2.7.1 AS promtail
 
 ## Build final image
 FROM debian:buster-slim
