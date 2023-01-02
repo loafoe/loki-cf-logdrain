@@ -6,7 +6,7 @@ require (
 	github.com/RackSec/srslog v0.0.0-20180709174129-a4725f04ec91
 	github.com/influxdata/go-syslog/v2 v2.0.1
 	github.com/labstack/echo-contrib v0.13.0
-	github.com/labstack/echo/v4 v4.9.1
+	github.com/labstack/echo/v4 v4.10.0
 	github.com/openzipkin/zipkin-go v0.4.1
 	github.com/philips-software/go-hsdp-api v0.76.1
 	github.com/philips-software/logproxy v1.7.10
@@ -59,13 +59,13 @@ require (
 	github.com/streadway/amqp v0.0.0-20190827072141-edfb9018d271 // indirect
 	github.com/subosito/gotenv v1.4.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasttemplate v1.2.1 // indirect
-	golang.org/x/crypto v0.0.0-20221010152910-d6f0a8c073c2 // indirect
-	golang.org/x/net v0.0.0-20221014081412-f15817d10f9b // indirect
+	github.com/valyala/fasttemplate v1.2.2 // indirect
+	golang.org/x/crypto v0.2.0 // indirect
+	golang.org/x/net v0.4.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
-	golang.org/x/sys v0.0.0-20221010170243-090e33056c14 // indirect
-	golang.org/x/text v0.4.0 // indirect
-	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
+	golang.org/x/sys v0.3.0 // indirect
+	golang.org/x/text v0.5.0 // indirect
+	golang.org/x/time v0.2.0 // indirect
 	google.golang.org/genproto v0.0.0-20221024183307-1bc688fe9f3e // indirect
 	google.golang.org/grpc v1.51.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
