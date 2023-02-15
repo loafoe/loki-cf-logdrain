@@ -1,4 +1,4 @@
-FROM golang:1.20.0-buster as builder
+FROM golang:1.20.1-buster as builder
 WORKDIR /loki-cf-logdrain
 COPY go.mod .
 COPY go.sum .
