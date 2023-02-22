@@ -9,7 +9,7 @@ require (
 	github.com/labstack/echo/v4 v4.10.2
 	github.com/openzipkin/zipkin-go v0.4.1
 	github.com/philips-software/go-hsdp-api v0.79.1
-	github.com/philips-software/logproxy v1.7.10
+	github.com/philips-software/logproxy v1.8.0
 	github.com/spf13/viper v1.15.0
 	github.com/stretchr/testify v1.8.1
 )
@@ -33,7 +33,7 @@ require (
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-hclog v1.2.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
-	github.com/hashicorp/go-plugin v1.4.6 // indirect
+	github.com/hashicorp/go-plugin v1.4.8 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
