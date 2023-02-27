@@ -11,7 +11,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=$GOARCH go build -o /loki-cf-logdrain
 FROM grafana/promtail:2.7.4 AS promtail
 
 ## Build final image
-FROM debian:buster-slim
+FROM debian:buster
 LABEL maintainer="andy.lo-a-foe@philips.com"
 RUN apt-get update && apt-get install -y \
     jq \
