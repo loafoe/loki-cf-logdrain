@@ -1,18 +1,17 @@
 package handlers
 
 import (
+	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 
 	syslog "github.com/RackSec/srslog"
+	"go.opentelemetry.io/otel/trace"
 
 	v2syslog "github.com/influxdata/go-syslog/v2"
 	"github.com/influxdata/go-syslog/v2/rfc5424"
-	"github.com/labstack/echo-contrib/zipkintracing"
-	"github.com/openzipkin/zipkin-go"
-
 	"github.com/labstack/echo/v4"
 )
 
@@ -51,22 +50,17 @@ func RFC5424PassThroughFormatter(p syslog.Priority, hostname, tag, content strin
 	return content
 }
 
-func (h *SyslogHandler) Handler(tracer *zipkin.Tracer) echo.HandlerFunc {
+func (h *SyslogHandler) Handler(ctx context.Context, tracer trace.Tracer) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		if tracer != nil {
-			defer zipkintracing.TraceFunc(c, "syslog_handler", zipkintracing.DefaultSpanTags, tracer)()
+			_, span := tracer.Start(ctx, "syslog")
+			defer span.End()
 		}
 		t := c.Param("token")
 		if h.token != t {
 			return c.String(http.StatusUnauthorized, "")
 		}
-		b, _ := ioutil.ReadAll(c.Request().Body)
-		if tracer != nil {
-			span := zipkintracing.StartChildSpan(c, "push", tracer)
-			defer span.Finish()
-			traceID := span.Context().TraceID.String()
-			fmt.Printf("handler=syslog traceID=%s\n", traceID)
-		}
+		b, _ := io.ReadAll(c.Request().Body)
 		syslogMessage, err := h.parser.Parse(b)
 		if err != nil {
 			return err

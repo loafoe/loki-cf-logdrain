@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/philips-software/logproxy/handlers"
+	"github.com/philips-software/logproxy/queue"
 
 	"github.com/philips-software/go-hsdp-api/logging"
 
@@ -18,6 +19,10 @@ import (
 type mockProducer struct {
 	t *testing.T
 	q chan logging.Resource
+}
+
+func (m *mockProducer) SetMetrics(queue queue.Metrics) {
+	return
 }
 
 func (m *mockProducer) DeadLetter(_ logging.Resource) error {

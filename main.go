@@ -1,12 +1,15 @@
 package main
 
 import (
+	"context"
 	"fmt"
-	"loki-cf-logdrain/handlers"
 	"os"
 	"os/signal"
+	"time"
 
-	zipkinReporter "github.com/openzipkin/zipkin-go/reporter"
+	"github.com/loafoe/loki-cf-logdrain/handlers"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/spf13/viper"
 
@@ -15,14 +18,73 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 
-	"github.com/labstack/echo-contrib/zipkintracing"
-	"github.com/openzipkin/zipkin-go"
-	zipkinHttpReporter "github.com/openzipkin/zipkin-go/reporter/http"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/labstack/echo/otelecho"
+
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
+	"go.opentelemetry.io/otel/propagation"
+	"go.opentelemetry.io/otel/sdk/resource"
+	sdktrace "go.opentelemetry.io/otel/sdk/trace"
+	semconv "go.opentelemetry.io/otel/semconv/v1.17.0"
 )
 
 var commit = "deadbeaf"
 var release = "v1.2.2"
 var buildVersion = release + "-" + commit
+
+// Initializes an OTLP exporter, and configures the corresponding trace and
+// metric providers.
+func initProvider() (func(context.Context) error, error) {
+	ctx := context.Background()
+
+	res, err := resource.New(ctx,
+		resource.WithAttributes(
+			// the service name used to display traces in backends
+			semconv.ServiceName("go-hello-world"),
+		),
+	)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create resource: %w", err)
+	}
+
+	// If the OpenTelemetry Collector is running on a local cluster (minikube or
+	// microk8s), it should be accessible through the NodePort service at the
+	// `localhost:30080` endpoint. Otherwise, replace `localhost` with the
+	// endpoint of your cluster. If you run the app inside k8s, then you can
+	// probably connect directly to the service through dns.
+	ctx, cancel := context.WithTimeout(ctx, time.Second)
+	defer cancel()
+	conn, err := grpc.DialContext(ctx, os.Getenv("OTLP_ADDRESS"),
+		// Note the use of insecure transport here. TLS is recommended in production.
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithBlock(),
+	)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create gRPC connection to collector: %w", err)
+	}
+
+	// Set up a trace exporter
+	traceExporter, err := otlptracegrpc.New(ctx, otlptracegrpc.WithGRPCConn(conn))
+	if err != nil {
+		return nil, fmt.Errorf("failed to create trace exporter: %w", err)
+	}
+
+	// Register the trace exporter with a TracerProvider, using a batch
+	// span processor to aggregate spans before export.
+	bsp := sdktrace.NewBatchSpanProcessor(traceExporter)
+	tracerProvider := sdktrace.NewTracerProvider(
+		sdktrace.WithSampler(sdktrace.AlwaysSample()),
+		sdktrace.WithResource(res),
+		sdktrace.WithSpanProcessor(bsp),
+	)
+	otel.SetTracerProvider(tracerProvider)
+
+	// set global propagator to tracecontext (the default is no-op).
+	otel.SetTextMapPropagator(propagation.TraceContext{})
+
+	// Shutdown will flush any remaining spans and shut down the exporter.
+	return tracerProvider.Shutdown, nil
+}
 
 func main() {
 	e := make(chan *echo.Echo, 1)
@@ -36,34 +98,19 @@ func realMain(echoChan chan<- *echo.Echo) int {
 	viper.SetDefault("promtail_endpoint", "localhost:1514")
 	viper.AutomaticEnv()
 
-	transportURL := viper.GetString("transport_url")
 	token := os.Getenv("TOKEN")
 
 	// Echo framework
 	e := echo.New()
 
 	// Tracing
-	endpoint, err := zipkin.NewEndpoint("loki-cf-logdrain", "")
-	if err != nil {
-		e.Logger.Fatalf("error creating zipkin endpoint: %s", err.Error())
-	}
-	reporter := zipkinReporter.NewNoopReporter()
-	if transportURL != "" {
-		reporter = zipkinHttpReporter.NewReporter(transportURL)
-	}
-	traceTags := make(map[string]string)
-	traceTags["app"] = "loki-cf-logdrain"
-	tracer, err := zipkin.NewTracer(reporter,
-		zipkin.WithLocalEndpoint(endpoint),
-		zipkin.WithTags(traceTags),
-		zipkin.WithSampler(zipkin.AlwaysSample))
+	tracer := otel.Tracer("loki-cf-logdrain")
+	ctx := context.Background()
 
-	// Middleware
-	if err == nil {
-		e.Use(zipkintracing.TraceServer(tracer))
-	}
+	e.Use(otelecho.Middleware("loki-cf-logdrain"))
+
 	healthHandler := handlers.HealthHandler{}
-	e.GET("/health", healthHandler.Handler(tracer))
+	e.GET("/health", healthHandler.Handler(ctx, tracer))
 	e.GET("/api/version", handlers.VersionHandler(buildVersion))
 
 	promtailEndpoint := viper.GetString("promtail_endpoint")
@@ -72,7 +119,7 @@ func realMain(echoChan chan<- *echo.Echo) int {
 		fmt.Printf("syslogHandler: %v\n", err)
 		return 8
 	}
-	e.POST("/syslog/drain/:token", syslogHandler.Handler(tracer))
+	e.POST("/syslog/drain/:token", syslogHandler.Handler(ctx, tracer))
 
 	setupPprof()
 	setupInterrupts()
