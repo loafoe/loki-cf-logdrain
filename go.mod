@@ -5,17 +5,16 @@ go 1.19
 require (
 	github.com/RackSec/srslog v0.0.0-20180709174129-a4725f04ec91
 	github.com/influxdata/go-syslog/v2 v2.0.1
-	github.com/labstack/echo-contrib v0.14.0
 	github.com/labstack/echo/v4 v4.10.2
 	github.com/philips-software/go-hsdp-api v0.79.1
 	github.com/philips-software/logproxy v1.8.1
 	github.com/spf13/viper v1.15.0
 	github.com/stretchr/testify v1.8.2
 	go.opentelemetry.io/contrib/instrumentation/github.com/labstack/echo/otelecho v0.39.0
-	go.opentelemetry.io/otel v1.13.0
+	go.opentelemetry.io/otel v1.14.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.13.0
-	go.opentelemetry.io/otel/sdk v1.13.0
-	go.opentelemetry.io/otel/trace v1.13.0
+	go.opentelemetry.io/otel/sdk v1.14.0
+	go.opentelemetry.io/otel/trace v1.14.0
 	google.golang.org/grpc v1.53.0
 )
 
@@ -44,6 +43,7 @@ require (
 	github.com/hashicorp/go-plugin v1.4.8 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb // indirect
+	github.com/labstack/echo-contrib v0.14.0 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/loafoe/go-rabbitmq v0.5.0 // indirect
