@@ -92,6 +92,15 @@ func main() {
 }
 
 func realMain(echoChan chan<- *echo.Echo) int {
+	ctx := context.Background()
+	shutdown, err := initProvider()
+	if err == nil {
+		defer func() {
+			if err := shutdown(ctx); err != nil {
+				fmt.Printf("failed to shutdown TracerProvider: %v\n", err)
+			}
+		}()
+	}
 
 	viper.SetEnvPrefix("loki-cf-logdrain")
 	viper.SetDefault("transport_url", "")
@@ -105,7 +114,6 @@ func realMain(echoChan chan<- *echo.Echo) int {
 
 	// Tracing
 	tracer := otel.Tracer("loki-cf-logdrain")
-	ctx := context.Background()
 
 	e.Use(otelecho.Middleware("loki-cf-logdrain"))
 
@@ -151,9 +159,7 @@ func setupInterrupts() {
 
 func setupPprof() {
 	go func() {
-		err := http.ListenAndServe("localhost:6060", nil)
-		if err != nil {
-		}
+		_ = http.ListenAndServe("localhost:6060", nil)
 	}()
 }
 

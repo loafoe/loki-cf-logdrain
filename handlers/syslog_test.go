@@ -22,7 +22,6 @@ type mockProducer struct {
 }
 
 func (m *mockProducer) SetMetrics(queue queue.Metrics) {
-	return
 }
 
 func (m *mockProducer) DeadLetter(_ logging.Resource) error {
