@@ -11,7 +11,7 @@ Deployment should be performed using the [bundled Terraform module](modules/loki
 ```hcl
 module "loki_logdrain" {
   source = "./modules/loki-cf-logdrain"
-  name_postfix           = local.postfix
+  name_postfix           = var.postfix
   cf_domain              = var.cf_domain
   cf_space_id            = var.cf_space_id
   
@@ -19,6 +19,12 @@ module "loki_logdrain" {
   loki_password = "some-secret-password"
   
   loki_push_endpoint = "https://loki.some-fiesta-cluster.terrakube.com/loki/api/v1/push"
+}
+
+resource "cloudfoundry_user_provided_service" "loki_logdrain" {
+  name  = "tf-loki-logdrain-${var.postfix}"
+  space = var.cf_space_id
+  syslog_drain_url = module.loki_logdrain.logdrain_url
 }
 ```
 
