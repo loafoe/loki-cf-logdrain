@@ -6,7 +6,7 @@ User deployable service which implements a pipeline consisting of a small Go app
 
 ## Usage
 
-Deployment should be performed using e [bundled Terraform module](modules/loki-cf-logdrain). It injects the proper promtail config for you.
+Deployment should be performed using the [bundled Terraform module](modules/loki-cf-logdrain). It injects the proper promtail config for you.
 
 ```hcl
 module "loki_logdrain" {
