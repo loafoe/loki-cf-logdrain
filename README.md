@@ -28,6 +28,9 @@ resource "cloudfoundry_user_provided_service" "loki_logdrain" {
 }
 ```
 
+### Binding
+
+You can bind CF apps to the above created draining service to start delivery of logs to your Loki instance.
 
 ## License
 
