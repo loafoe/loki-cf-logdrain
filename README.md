@@ -6,8 +6,7 @@ User deployable service which implements a pipeline consisting of a small Go app
 
 ## Usage
 
-Deployment can be be done using [this Terraform module](https://github.com/loafoe/terraform-cloudfoundry-loki/tree/main/modules/logdrain) which is 
-part of th CF Loki module.
+Deployment should be performed using e [bundled Terraform module](modules/loki-cf-logdrain). It injects the proper promtail config for you.
 
 ```hcl
 module "loki_logdrain" {
@@ -15,6 +14,11 @@ module "loki_logdrain" {
   name_postfix           = local.postfix
   cf_domain              = var.cf_domain
   cf_space_id            = var.cf_space_id
+  
+  loki_username = "loki"
+  loki_password = "some-secret-password"
+  
+  loki_push_endpoint = "https://loki.some-fiesta-cluster.terrakube.com/loki/api/v1/push"
 }
 ```
 
