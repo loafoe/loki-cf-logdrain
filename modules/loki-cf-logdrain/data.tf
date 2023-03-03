@@ -1,4 +1,3 @@
-data "hsdp_config" "cf" {
-  region  = var.region
-  service = "cf"
+data "cloudfoundry_domain" "domain" {
+  domain = var.cf_domain
 }

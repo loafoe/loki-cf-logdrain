@@ -1,15 +1,4 @@
-variable "cf_user" {
-  description = "The CF username to use."
-  type        = string
-}
-
-variable "cf_password" {
-  description = "The CF password to use."
-  type        = string
-  sensitive   = true
-}
-
-variable "tag" {
+variable "docker_tag" {
   type    = string
   default = "latest"
 }
@@ -19,18 +8,13 @@ variable "memory" {
   default = 256
 }
 
-variable "cf_org_name" {
-  description = "The CF org name to deplo to."
+variable "cf_domain" {
+  description = "The CF domain to create the route in."
   type        = string
 }
-
-variable "cf_space_name" {
-  description = "The CF space name to deploy into."
+variable "cf_space_id" {
+  description = "The CF space id to deploy into."
   type        = string
-}
-
-variable "region" {
-  type = string
 }
 
 variable "name_postfix" {
@@ -60,4 +44,10 @@ variable "loki_username" {
 variable "loki_push_endpoint" {
   description = "The Loki push endpoint. This should include /loki/api/v1/push"
   type        = string
+}
+
+variable "docker_registry_image" {
+  description = "The Docker registry image to use."
+  type        = string
+  default     = "loafoe/loki-cf-logdrain"
 }

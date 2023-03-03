@@ -1,4 +1,5 @@
 .idea/
+.terraform/
 local.yml
 config.yml
 manifest.yml
