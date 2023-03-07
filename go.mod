@@ -7,7 +7,7 @@ require (
 	github.com/influxdata/go-syslog/v2 v2.0.1
 	github.com/labstack/echo/v4 v4.10.2
 	github.com/philips-software/go-hsdp-api v0.79.1
-	github.com/philips-software/logproxy v1.8.1
+	github.com/philips-software/logproxy v1.8.3
 	github.com/spf13/viper v1.15.0
 	github.com/stretchr/testify v1.8.2
 	go.opentelemetry.io/contrib/instrumentation/github.com/labstack/echo/otelecho v0.40.0
@@ -40,10 +40,10 @@ require (
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-hclog v1.2.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
-	github.com/hashicorp/go-plugin v1.4.8 // indirect
+	github.com/hashicorp/go-plugin v1.4.9 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb // indirect
-	github.com/labstack/echo-contrib v0.14.0 // indirect
+	github.com/labstack/echo-contrib v0.14.1 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/loafoe/go-rabbitmq v0.5.0 // indirect
@@ -64,7 +64,7 @@ require (
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/streadway/amqp v0.0.0-20190827072141-edfb9018d271 // indirect
+	github.com/streadway/amqp v1.0.0 // indirect
 	github.com/subosito/gotenv v1.4.2 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
