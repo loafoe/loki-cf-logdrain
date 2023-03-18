@@ -127,6 +127,12 @@ func realMain(echoChan chan<- *echo.Echo) int {
 	setupPprof()
 	setupInterrupts()
 
+	// RabbitMQ
+	rabbitMQHandler, err := handlers.NewRabbitMQHandler(promtailEndpoint)
+	if err == nil {
+		_, _ = rabbitMQHandler.CreateWorker("log_drainer_exchange", "log_drainer_rk", "loki_queue", "loki")
+	}
+
 	echoChan <- e
 	exitCode := 0
 	if err := e.Start(listenString()); err != nil {
